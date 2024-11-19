@@ -26,9 +26,11 @@ highrise-backend/
 │   ├── main.py
 │   ├── routes.py
 │   ├── models.py
-│   └── chatbot.py
+│   ├── chatbot.py
+│   └── faq_scraper.py
 ├── data/
-│   └── highrise_faq.json
+│   ├── highrise_faq.json
+│   └── raw_scrapes/
 ├── logs/
 │   └── chat_feedback.log
 ├── frontend.py
@@ -179,6 +181,18 @@ sudo lsof -t -i:3000 | xargs kill -9
 
 ## Implementation History
 
+### FAQ Data Collection
+- Implemented custom FAQ scraper:
+  - Python-based web scraper using BeautifulSoup4
+  - Targeted Highrise knowledge base articles
+  - Structured data extraction:
+    - Questions
+    - Answers
+    - Article URLs
+    - Categories
+  - Data cleaning and formatting
+  - Export to JSON format (`highrise_faq.json`)
+
 ### Database Evolution
 - Initially implemented PostgreSQL for feedback storage
 - Transitioned to local logging system for simplicity:
@@ -234,3 +248,35 @@ sudo lsof -t -i:3000 | xargs kill -9
 - Optimize embedding loaders
 - Implement caching strategies
 - Consider alternative vector DBs
+
+## Additional Requirements
+
+For FAQ scraping:
+```bash
+pip install beautifulsoup4
+pip install requests
+pip install html5lib
+```
+
+## Data Collection
+
+### FAQ Scraping Process
+
+1. Run the FAQ scraper:
+```bash
+python app/faq_scraper.py
+```
+
+2. The scraper will:
+   - Fetch articles from Highrise knowledge base
+   - Parse HTML content
+   - Extract relevant information
+   - Clean and structure the data
+   - Save to `data/highrise_faq.json`
+
+3. Scraping configuration:
+   - Rate limiting to respect server limits
+   - Error handling for failed requests
+   - Data validation
+   - Duplicate detection
+   - Category-based organization
