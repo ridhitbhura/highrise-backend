@@ -1,6 +1,5 @@
 import json
 import os
-import logging
 from typing import Dict, List, Tuple, Optional
 import numpy as np
 from datetime import datetime
@@ -13,9 +12,6 @@ import time
 class SimpleFAQChatbot:
     def __init__(self, faq_file: str):
         load_dotenv()
-        
-        # Setup logging
-        self._setup_logging()
         
         # Load FAQ data
         self.faq_data = self._load_faq_data(faq_file)
@@ -66,27 +62,13 @@ class SimpleFAQChatbot:
         
         self.session_data = {}
     
-    def _setup_logging(self):
-        """Configure logging settings"""
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        logging.basicConfig(
-            level=logging.INFO,
-            format='%(asctime)s - %(levelname)s - %(message)s',
-            handlers=[
-                logging.FileHandler(f'chatbot_{timestamp}.log'),
-                logging.StreamHandler()
-            ]
-        )
-    
     def _load_faq_data(self, faq_file: str) -> Dict:
         """Load and validate FAQ data"""
         try:
             with open(faq_file, 'r') as f:
                 data = json.load(f)
-            logging.info(f"Successfully loaded FAQ data from {faq_file}")
             return data
         except Exception as e:
-            logging.error(f"Error loading FAQ data: {str(e)}")
             raise
     
     def _process_faq_data(self) -> List[Dict]:
@@ -186,8 +168,6 @@ class SimpleFAQChatbot:
     
     def ask(self, question: str) -> str:
         """Enhanced answer generation with better handling of edge cases"""
-        logging.info(f"Received question: {question}")
-        
         # Handle basic cases (greetings, goodbyes, empty questions)
         if self._is_greeting(question):
             return "Hello! I'm the Highrise FAQ chatbot. How can I help you today?"
@@ -226,7 +206,6 @@ class SimpleFAQChatbot:
         
         if not similar_faqs or similar_faqs[0][1] < 0.5:
             self.unanswered_questions.append(question)
-            logging.warning(f"No relevant answer found for: {question}")
             return ("I'm not quite sure about that. Could you rephrase your question? "
                    "Alternatively, you can visit our FAQ page at https://support.highrise.game/en/")
         
@@ -264,11 +243,9 @@ If the question is unclear, ask for clarification. If you're not sure about some
                 "sources": [self.processed_faqs[idx]['url'] for idx, _ in similar_faqs]
             })
             
-            logging.info(f"Generated response for question: {question}")
             return response.content
             
         except Exception as e:
-            logging.error(f"Error generating response: {str(e)}")
             return "I apologize, but I'm having trouble generating a response. Please try asking your question again."
     
     def _is_greeting(self, text: str) -> bool:
@@ -313,7 +290,6 @@ If the question is unclear, ask for clarification. If you're not sure about some
                 'status': 'success'
             }
         except Exception as e:
-            logging.error(f"Error processing message: {str(e)}")
             return {
                 'message': "I'm sorry, I encountered an error processing your message.",
                 'session_id': session_id,
@@ -325,10 +301,8 @@ If the question is unclear, ask for clarification. If you're not sure about some
         """Store user feedback"""
         try:
             # Add feedback storage logic here
-            logging.info(f"Feedback received: {feedback_data}")
             return True
         except Exception as e:
-            logging.error(f"Error storing feedback: {str(e)}")
             return False
 
 def main():
