@@ -1,6 +1,42 @@
 # Highrise FAQ Chatbot
 
-A chatbot that answers questions about Highrise using FastAPI backend and NiceGUI frontend.
+## Deliverables
+
+### 1. Code and Documentation
+- **Main Code**: Located in `app/chatbot.py`
+- **Supporting Files**:
+  - `app/main.py`: FastAPI backend setup
+  - `frontend.py`: NiceGUI frontend implementation
+  - `app/faq_scraper.py`: Data collection script
+- **Documentation**: Comprehensive inline comments and docstrings in all files
+
+### 2. Sample Interaction Logs
+- **Location**: `logs/chat_feedback.log`
+- **Format**: JSON entries with timestamps
+- **Contents**: Mix of:
+  - Supported questions with helpful responses
+  - Edge cases and unsupported questions
+  - Clarification requests
+  - User feedback (helpful/not helpful)
+
+### 3. Deployment History
+- **Initial Attempt**: Vercel/Next.js
+  - Implemented client-side rendering
+  - Faced API credit limitations
+  - Performance issues with API integration
+
+- **Secondary Attempt**: Render
+  - Deployed backend and frontend separately
+  - Attempted optimization with pickle files
+  - Limited by request load handling
+  - Cost-effective but performance constrained
+
+### 4. Documentation
+- Comprehensive README (this file)
+- Setup instructions below
+- Architecture explanation
+- Implementation details
+- Future improvements outlined
 
 ## Features
 
@@ -14,31 +50,7 @@ A chatbot that answers questions about Highrise using FastAPI backend and NiceGU
 ## Prerequisites
 
 - Python 3.9+
-- PostgreSQL database
 - OpenAI API key
-
-## Project Structure
-
-```
-highrise-backend/
-├── app/
-│   ├── __init__.py
-│   ├── main.py
-│   ├── routes.py
-│   ├── models.py
-│   ├── chatbot.py
-│   └── faq_scraper.py
-├── data/
-│   ├── highrise_faq.json
-│   └── raw_scrapes/
-├── logs/
-│   └── chat_feedback.log
-├── frontend.py
-├── requirements.txt
-├── run_local.sh
-├── start.sh
-└── .env
-```
 
 ## Setup
 
@@ -141,7 +153,6 @@ The frontend uses NiceGUI and includes:
 - Auto-scrolling
 - Environment-based configuration
 
-
 ## Environment Variables
 
 ### Required Variables
@@ -182,6 +193,7 @@ sudo lsof -t -i:3000 | xargs kill -9
 ## Implementation History
 
 ### FAQ Data Collection
+
 - Implemented custom FAQ scraper:
   - Python-based web scraper using BeautifulSoup4
   - Targeted Highrise knowledge base articles
@@ -194,6 +206,7 @@ sudo lsof -t -i:3000 | xargs kill -9
   - Export to JSON format (`highrise_faq.json`)
 
 ### Database Evolution
+
 - Initially implemented PostgreSQL for feedback storage
 - Transitioned to local logging system for simplicity:
   - JSON-formatted log files
@@ -252,6 +265,7 @@ sudo lsof -t -i:3000 | xargs kill -9
 ## Additional Requirements
 
 For FAQ scraping:
+
 ```bash
 pip install beautifulsoup4
 pip install requests
@@ -263,11 +277,13 @@ pip install html5lib
 ### FAQ Scraping Process
 
 1. Run the FAQ scraper:
+
 ```bash
 python app/faq_scraper.py
 ```
 
 2. The scraper will:
+
    - Fetch articles from Highrise knowledge base
    - Parse HTML content
    - Extract relevant information

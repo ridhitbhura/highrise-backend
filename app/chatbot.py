@@ -1,3 +1,17 @@
+"""
+Highrise FAQ Chatbot Implementation
+
+This module implements a chatbot specifically designed for Highrise game FAQs.
+It uses OpenAI's GPT-4 for natural language processing and embeddings for semantic search.
+
+Key features:
+- FAQ data loading and processing
+- Semantic search using embeddings
+- Multi-part question handling
+- Conversation history tracking
+- Typo and synonym handling
+"""
+
 import json
 import os
 from typing import Dict, List, Tuple, Optional
@@ -10,7 +24,25 @@ import re
 import time
 
 class SimpleFAQChatbot:
+    """
+    A chatbot class that handles FAQ queries for the Highrise game.
+    
+    Attributes:
+        faq_data (Dict): Raw FAQ data loaded from JSON
+        embeddings: OpenAI embeddings model instance
+        llm: OpenAI GPT-4 language model instance
+        conversation_history (List): Track recent conversations
+        processed_faqs (List[Dict]): Processed FAQ entries
+        question_embeddings (List): Cached embeddings for FAQ titles
+    """
+    
     def __init__(self, faq_file: str):
+        """
+        Initialize the chatbot with FAQ data and necessary models.
+        
+        Args:
+            faq_file (str): Path to the JSON file containing FAQ data
+        """
         load_dotenv()
         
         # Load FAQ data

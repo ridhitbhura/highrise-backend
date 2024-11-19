@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.routes import router
 import os
 
-# Get port from environment variable
+# Environment configuration
 PORT = int(os.getenv("PORT", 10000))
 
 app = FastAPI(
@@ -12,20 +12,26 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Add CORS middleware
+# CORS middleware setup for cross-origin requests
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # In production, specify actual origins
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Include routes
+# Include API routes
 app.include_router(router)
 
 @app.get("/")
 def read_root():
+    """
+    Root endpoint providing basic API information.
+    
+    Returns:
+        dict: Basic API information and configuration
+    """
     return {
         "message": "Welcome to the Highrise FAQ Chatbot API!",
         "port": PORT,
@@ -34,4 +40,10 @@ def read_root():
 
 @app.get("/health")
 async def health_check():
+    """
+    Health check endpoint for monitoring.
+    
+    Returns:
+        dict: Health status and port information
+    """
     return {"status": "healthy", "port": PORT}
