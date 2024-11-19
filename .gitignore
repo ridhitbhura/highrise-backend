@@ -1,0 +1,14 @@
+.env
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.pyz
+*.pyw
+*.py3
+
+*.log
+*.log.*
+*.log.*.*
+*.log.*.*.*
+*.log.*.*.*.*
